@@ -102,7 +102,7 @@ const AllStatisticTable = ({filesData}) => {
 
     allTablesData.splice(-2);
     const bigTable = allTablesData[allTablesData.length - 1];
-        console.log(bigTable);
+    tableDataArray[4] = (+bigTable[bigTable.length - 1][0].split(" ")[0] - tableDataArray[3]) + " руб.";
       }
     })
     setTableData(tableDataArray);
@@ -119,6 +119,7 @@ const AllStatisticTable = ({filesData}) => {
             <th className="p-2 border">Клики</th>
             <th className="p-2 border">Конверсии</th>
             <th className="p-2 border">Расход</th>
+            <th className="p-2 border">Подтвержденный доход</th>
           </tr>
         </thead>
         <tbody>
