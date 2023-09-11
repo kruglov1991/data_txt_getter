@@ -226,7 +226,7 @@ const App = () => {
               const fileData = fileResponse.data;
               return { fileName: file.name, fileData };
             } else {
-              // console.error('Ошибка при загрузке файла из Dropbox:', file.name);
+              console.error('Ошибка при загрузке файла из Dropbox:', file.name);
               return null;
             }
           });
@@ -234,11 +234,11 @@ const App = () => {
           const fileData = await Promise.all(promises);
           setFileData(fileData.filter((file) => file !== null));
         } else {
-          // console.error('Ошибка при получении списка файлов из Dropbox:', response.status);
+          console.error('Ошибка при получении списка файлов из Dropbox:', response.status);
           // setError("Обновите api токен для Dropbox");
         }
       } catch (error) {
-        // console.error('Ошибка при выполнении запроса к Dropbox API:', error);
+        console.error('Ошибка при выполнении запроса к Dropbox API:', error);
       }
     };
 
