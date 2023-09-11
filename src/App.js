@@ -78,11 +78,11 @@ const AllStatisticTable = ({filesData}) => {
         const spendings = spend.split(':')[1];
         const impr = impressions.split(':')[1];
         if (tableDataArray.length === 0) {
-          tableDataArray = [+impr.replace(/\s/g, ""), +clicks.split(':')[1], +conversions.split(':')[1], parseFloat(spendings.replace(',', '.'))];
+          tableDataArray = [+impr.replace(/\s/g, ""), +clicks.split(':')[1], !conversions.split(':')[1].includes(',') ? +conversions.split(':')[1] : parseInt(conversions.split(':')[1].replace(",", ""), 10), parseFloat(spendings.replace(',', '.'))];
         } else {
           tableDataArray[0] += +impr.replace(/\s/g, "");
           tableDataArray[1] += +clicks.split(':')[1];
-          tableDataArray[2] += +conversions.split(':')[1];
+          tableDataArray[2] += !conversions.split(':')[1].includes(',') ? +conversions.split(':')[1] : parseInt(conversions.split(':')[1].replace(",", ""), 10);
           tableDataArray[3] += parseFloat(spendings.replace(',', '.'));
         }
       }
