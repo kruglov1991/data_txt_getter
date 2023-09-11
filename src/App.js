@@ -85,6 +85,24 @@ const AllStatisticTable = ({filesData}) => {
           tableDataArray[2] += !conversions.split(':')[1].includes(',') ? +conversions.split(':')[1] : parseInt(conversions.split(':')[1].replace(",", ""), 10);
           tableDataArray[3] += parseFloat(spendings.replace(',', '.'));
         }
+      } else {
+    const allTablesData = [[]]
+    fileData = fileData.replace(/\s+\|\|/g, '||');
+    const lines = fileData.split('\n');
+    const rows = lines.map(line => line.split('||').map(entry => entry.trim()));
+
+    rows.forEach((el, index) => {
+      const last = allTablesData.length - 1;
+      if (el[0] === '') {
+        allTablesData.push([]);
+      } else {
+        allTablesData[last].push(el);
+      }
+    })
+
+    allTablesData.splice(-2);
+    const bigTable = allTablesData[allTablesData.length - 1];
+        console.log(bigTable);
       }
     })
     setTableData(tableDataArray);
