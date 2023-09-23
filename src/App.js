@@ -104,10 +104,10 @@ const AllStatisticTable = ({filesData}) => {
 
     allTablesData.splice(-2);
     const bigTable = allTablesData[allTablesData.length - 1];
-        console.log(bigTable[bigTable.length - 1][0], 'without split');
-        console.log(bigTable[bigTable.length - 1][0].split(" ")[0]);
-        console.log(bigTable[bigTable.length - 1][0].split(" ")[0].replace(/\s/g, ""));
-    tableDataArray[4] = (parseInt(bigTable[bigTable.length - 1][0].split(" ")[0].replace(/\s/g, "")) - spendingsAll) + " руб.";
+    const currentNumber = bigTable[bigTable.length - 1][0].split(" ");
+    currentNumber.pop();
+    
+    tableDataArray[4] = (parseInt(currentNumber.join(''), 10); - spendingsAll) + " руб.";
       }
     })
     setTableData(tableDataArray);
