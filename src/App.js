@@ -294,7 +294,7 @@ const App = () => {
   }, []);
 
   return (
-    <div style={{maxWidth: '2500px'}} className="container mx-auto p-4">
+    <div style={{maxWidth: '3060px'}} className="container mx-auto p-4">
       <h1 className="text-3xl font-bold text-center mb-8">Статистика</h1>
 
       {!isLoggedIn ? (
