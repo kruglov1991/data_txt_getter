@@ -76,15 +76,15 @@ const AllStatisticTable = ({filesData}) => {
         const lastLine = lines[lines.length - 2]; // Игнорируем последнюю пустую строку
         const entries = lastLine.split('||').map(entry => entry.trim());
         const [date, impressions, clicks, conversions, spend] = entries;
-        const spendings = spend.split(':')[1];
+        const spendings = parseFloat(spend.split(':')[1].replace(/[^\d,]/g, '').replace(',', '.'))
         const impr = impressions.split(':')[1];
         if (tableDataArray.length === 0) {
-          tableDataArray = [+impr.replace(/\s/g, ""), +clicks.split(':')[1], !conversions.split(':')[1].includes(',') ? +conversions.split(':')[1] : parseInt(conversions.split(':')[1].replace(",", ""), 10), parseFloat(spendings.replace(',', '.'))];
+          tableDataArray = [+impr.replace(/\s/g, ""), +clicks.split(':')[1], !conversions.split(':')[1].includes(',') ? +conversions.split(':')[1] : parseInt(conversions.split(':')[1].replace(",", ""), 10), spendings];
         } else {
           tableDataArray[0] += +impr.replace(/\s/g, "");
           tableDataArray[1] += +clicks.split(':')[1];
           tableDataArray[2] += !conversions.split(':')[1].includes(',') ? +conversions.split(':')[1] : parseInt(conversions.split(':')[1].replace(",", ""), 10);
-          tableDataArray[3] += parseFloat(spendings.replace(',', '.'));
+          tableDataArray[3] += spendings;
           setSpendingsAll(tableDataArray[3]);
         }
       } else {
@@ -272,7 +272,7 @@ const App = () => {
 
   const handleLogin = () => {
     // Перенаправление на страницу аутентификации Dropbox OAuth
-    window.location.href = 'https://www.dropbox.com/oauth2/authorize?client_id=wgwzarydbvgnbqg&response_type=token&redirect_uri=https://data-from-txt-getter.vercel.app'; // Вот тут после redirect_uri= напишите ваш сайт куда вы залили этот проект ||| то есть вам надо заменить https://get-data-from-txt.vercel.app на свою ссылку
+    window.location.href = 'https://www.dropbox.com/oauth2/authorize?client_id=wgwzarydbvgnbqg&response_type=token&redirect_uri=https://data-from-txt-getter.vercel.app'; // --- https://data-from-txt-getter.vercel.app --- Вот тут после redirect_uri= напишите ваш сайт куда вы залили этот проект ||| то есть вам надо заменить https://get-data-from-txt.vercel.app на свою ссылку
   };
 
   const handleOAuthCallback = () => {
@@ -309,7 +309,10 @@ const App = () => {
         <h1 className="text-3xl font-bold text-center mt-4 text-red-600">{error}</h1>
       )}
       <div className="flex flex-wrap just justify-center gap-4">
-        {fileData.map(({ fileName, fileData }) => (
+        {fileData
+            .filter(({ fileName }) => !fileName.includes('statistic_pb'))
+            .sort((a, b) => a.fileName.localeCompare(b.fileName))
+            .map(({ fileName, fileData }) => (
           <React.Fragment key={fileName}>
             {!fileName.includes('statistic_pb') && (
               <FileData fileName={fileName} fileData={fileData} />
